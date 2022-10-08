@@ -1,0 +1,184 @@
+{% extends "mealplan/base.html" %}
+{% load static %}
+
+{% block content %}
+<section class="hero-container">
+    <div class="hero-container-inner">
+        <div class="hero-img" style="background-image: url('{% static 'mealplan/media/jpg/titans_hot_food_0.jpg' %}')"></div>
+        <div class="hero-text">
+            {% if user.is_authenticated %}
+                <h1>Welcome back.</h1>
+                <p>Start planning your meals.</p>
+                <a class="btn white" href="{% url 'meal-plan' %}">Start Planning</a>
+            {% else %}
+                <h1>Meal planning made simple.</h1>
+                <p>Plan weeks ahead, save recipes, and generate shopping lists.</p>
+                <form method="POST">
+                    {% csrf_token %}
+                    <legend>Start planning today!</legend>
+                    <div class="register-form">
+                        {{ form.non_field_errors }}
+                        <div class="register-form-input">
+                            <div>
+                            {{ form.firstname.errors }}
+                            <label for="{{ form.firstname.id_for_label }}">First name</label>
+                            {{ form.firstname }}
+                            </div>
+                            <div>
+                            {{ form.lastname.errors }}
+                            <label for="{{ form.lastname.id_for_label }}">Last name</label>
+                            {{ form.lastname }}
+                            </div>
+                        </div>
+                        <div class="register-form-input">
+                            <div>
+                            {{ form.username.errors }}
+                            <label for="{{ form.username.id_for_label }}">Username</label>
+                            {{ form.username }}
+                            </div>
+                            <div>
+                            {{ form.email.errors }}
+                            <label for="{{ form.email.id_for_label }}">Email</label>
+                            {{ form.email }}
+                            </div>
+                        </div>
+                        <div class="register-form-input">
+                            <div>
+                            {{ form.password1.errors }}
+                            <label for="{{ form.password1.id_for_label }}">Password</label>
+                            {{ form.password1 }}
+                            </div>
+                            <div>
+                            {{ form.password2.errors }}
+                            <label for="{{ form.password2.id_for_label }}">Password Confirm</label>
+                            {{ form.password2 }}
+                            </div>
+                        </div>
+                        <div class="register-form-input">
+                            {{ form.tnc }}
+                            <div>
+                             <label for="{{ form.tnc.id_for_label }}">By signing in, you are agreeing to our
+                                 <a>Terms of Service</a> and our <a>Privacy Policy—Your California Rights</a>.</label>
+                            </div>
+                        </div>
+                        <button class="btn sec-clr" type="submit">Create Account</button>
+                    </div>
+                </form>
+                <small>
+                    Already have an account?
+                    <a href="{% url 'login' %}">Sign in</a>
+                </small>
+            {% endif %}
+        </div>
+    </div>
+</section>
+<section class="how-container">
+    <h1>How it works</h1>
+    <div class="how-container-inner">
+        <div class="icon-parent">
+            <h1>Plan</h1>
+            <div class="how-container-inner-icon">
+                <img src="{% static 'mealplan/media/gif/plan.gif' %}">
+            </div>
+            <p>Add recipes (either from our collection, your favorite websites, or your personal recipe box)
+                and add those recipes to your meal plan calendar.
+            </p>
+        </div>
+        <div class="icon-parent">
+            <h1>Shop</h1>
+            <div class="how-container-inner-icon">
+                <img src="{% static 'mealplan/media/gif/shop.gif' %}">
+            </div>
+            <p>Your shopping list will be made for you automatically based on the recipes on your planner.
+                Most of your grocery list is made automatically based on the recipes that you plan,
+                but further personalization is easy. Getting your list perfect for how you shop will
+                keep you sane at the store.</p>
+        </div>
+        <div class="icon-parent">
+            <h1>Bon Appetit!</h1>
+            <div class="how-container-inner-icon">
+                <img src="{% static 'mealplan/media/gif/pizza.gif' %}">
+            </div>
+            <p>Easily access your meal plan and recipes in one place to make meal prep more organized and efficient.</p>
+        </div>
+    </div>
+</section>
+<section class="testimonials-container">
+    <h1>What everyone is saying about Cook Time</h1>
+    <div class="testimonials-container-inner">
+        <div class="testimonial-card">
+            <strong>Annabella N.</strong>
+            <div class="star-rating">
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+            </div>
+            <span>
+                <i class="fa fa-quote-left" aria-hidden="true"></i>
+                    <p>I was amazed at the quality of meal plan.
+                Cook Time is the next killer website. Really good.</p>
+                <i class="fa fa-quote-right" aria-hidden="true"></i>
+            </span>
+        </div>
+        <div class="testimonial-card">
+            <strong>Jessica M.</strong>
+            <div class="star-rating">
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+            </div>
+            <span>
+                <i class="fa fa-quote-left" aria-hidden="true"></i>
+                    <p>"Not able to tell you how happy I am with Cook Time.
+                        Absolutely wonderful! Thanks Cook Time!
+                        Cook Time is the real deal!</p>
+                <i class="fa fa-quote-right" aria-hidden="true"></i>
+            </span>
+        </div>
+        <div class="testimonial-card">
+            <strong>Stephen Z.</strong>
+            <div class="star-rating">
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+            </div>
+            <span>
+                <i class="fa fa-quote-left" aria-hidden="true"></i>
+                    <p>I love Cook Time. Cook Time impressed me on multiple levels.</p>
+                <i class="fa fa-quote-right" aria-hidden="true"></i>
+            </span>
+        </div>
+        <div class="testimonial-card">
+            <strong>Leslie S.</strong>
+            <div class="star-rating">
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+                <i class="fa fa-star" aria-hidden="true"></i>
+            </div>
+            <span>
+                <i class="fa fa-quote-left" aria-hidden="true"></i>
+                    <p>I can't tell you how much Cook Time has changed my life.
+                        Less stress and more time with my family.</p>
+                <i class="fa fa-quote-right" aria-hidden="true"></i>
+            </span>
+        </div>
+
+    </div>
+</section>
+<section class="cta">
+    <h1>Start saving time (and headaches) by joining today.</h1>
+    <a class="btn white" href="{% url 'register' %}">Create Account</a>
+    <small>
+        Already have an account?
+        <a class="ml-2" href="{% url 'login' %}">Sign in</a>
+    </small>
+</section>
+{% endblock %}

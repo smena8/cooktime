@@ -1,0 +1,16 @@
+{% extends "mealplan/home.html" %}
+
+{% block content %}
+<div class="content-section">
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset>
+            <legend>Recipe Card</legend>
+            {{ form.as_p }}
+        </fieldset>
+        <div class="form-group">
+            <button class="btn" type="submit">Add to recipe box</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

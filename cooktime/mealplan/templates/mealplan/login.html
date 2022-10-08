@@ -1,0 +1,16 @@
+{% extends "mealplan/home.html" %}
+
+{% block content %}
+<div class="container-top">
+    <form class="login-form" method="POST">
+        {% csrf_token %}
+            <legend>Login</legend>
+            {{ form.as_p }}
+        <button class="btn" type="submit">Log in</button>
+    </form>
+    <small>
+        Do you need an account?
+        <a href="{% url 'register' %}">Sign Up Now</a>
+    </small>
+</div>
+{% endblock %}

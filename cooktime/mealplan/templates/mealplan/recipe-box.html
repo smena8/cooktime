@@ -1,0 +1,241 @@
+{% extends "mealplan/home.html" %}
+
+{% block content %}
+<div class="container-top">
+    {% if messages %}
+    <h3>{{ messages.success }}</h3>
+    {% endif %}
+    <h1>Browse your recipe collection.</h1>
+    <div class="add-recipe-button">
+        <a href="/recipe-box/add-recipes-personal/" class="btn"><i class="material-icons">add</i>Add your own recipe</a>
+        <a href="/recipe-box/add-recipes-links/" class="btn"><i class="material-icons">add</i>Add recipe from url</a>
+    </div>
+</div>
+<div>
+    <div class="container-search-recipes">
+            <form method="get">
+                <div class="container-search-keyword">
+                    {% if search_query %}
+                      <input type="text" id="search_recipe_box" name="search_recipe_box" value="{{ search_query }}" placeholder="Search by title keyword...">
+                      {% else %}
+                       <input type="text" id="search_recipe_box" name="search_recipe_box" value="" placeholder="Search by title keyword...">
+                      {% endif %}
+                    <button class="btn" type="submit">Search Recipe Box</button>
+                    <a type="reset" id="btn_reset" name="btn_reset">Reset</a>
+                </div>
+                <div>
+                    <label>Order by:</label>
+                    <div class="dropdown">
+                      <button class="dropdown-toggle" type="button" aria-haspopup="true" >
+                          {% if list_sort %}
+                          {{ list_sort }}
+                          {% else %}
+                            Newest
+                          {% endif %}
+                      </button>
+                      <ul class="dropdown-menu" role="listbox" aria-expanded="false">
+                        <li role="option" tabindex="0">Newest</li>
+                        <li role="option" tabindex="0">Oldest</li>
+                        <li role="option" tabindex="0">Favorite</li>
+                        <li role="option" tabindex="0">A-Z</li>
+                        <li role="option" tabindex="0">Z-A</li>
+                        <input type="hidden" id="select_option" name="select_option" value="{{ list_sort }}">
+                      </ul>
+                    </div>
+                </div>
+            </form>
+    </div>
+</div>
+<table>
+    <thead>
+        <th>Recipe</th>
+        <th>Favorite</th>
+<!--        <th>Add to Meal Plan</th>-->
+<!--        <th>Add to Shopping List</th>-->
+        <th>Delete</th>
+    </thead>
+    <tbody>
+        {% if recipes %}
+        {% for recipe_data in recipes|default:"nothing" %}
+        <tr>
+            <td>
+                <div class="recipe-container">
+                    <div class="recipe-image">
+                        <a href="{{ recipe_data.recipe_id.source_url }}" target="_blank"><img src="{{ recipe_data.recipe_id.image }}" alt="{{ recipe_data.recipe_id.recipe_name }}"></a>
+                    </div>
+                    <div class="recipe-details">
+                        <div class="recipe-title">
+                            <a href="{{ recipe_data.recipe_id.source_url }}" target="_blank">{{ recipe_data.recipe_id.recipe_name }}</a>
+                        </div>
+                        {% if recipe_data.recipe_id.credits_text %}
+                        <a href="{{ recipe_data.recipe_id.source_url }}" target="_blank">{{ recipe_data.recipe_id.credits_text }}</a>
+                        {% endif %}
+                        <div class="recipe-details-extra">
+                            {% if recipe_data.recipe_id.minutes %}
+                            <p>{{ recipe_data.recipe_id.minutes }} minutes</p>
+                            {% endif %}
+                            {% if recipe_data.recipe_id.servings %}
+                            <p>{{ recipe_data.recipe_id.servings }} servings</p>
+                            {% endif %}
+                            {% if recipe_data.recipe_id.ingredients %}
+                            <p>{{ recipe_data.recipe_id.ingredients }} ingredients</p>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </td>
+            <td>
+                <div class="heart-favorite">
+                    {% if recipe_data.favorite %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" id="fav_true_recipe" name="fav_true_recipe" value="{{ recipe_data.recipe_id.recipe_id }}">
+                        <button class="btn favorite-true" type="submit"><i class="fa fa-heart" aria-hidden="true"></i></button>
+                    </form>
+                    {% else %}
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" id="fav_false_recipe" name="fav_false_recipe" value="{{ recipe_data.recipe_id.recipe_id }}">
+                        <button class="btn favorite-false" type="submit"><i class="fa fa-heart" aria-hidden="true"></i></button>
+                    </form>
+                    {% endif %}
+                </div>
+             </td>
+<!--            <td>-->
+<!--                <div class="meal-plan-add">-->
+<!--                    {% now "Y" as current_year %}-->
+<!--                    {% now "m" as current_month %}-->
+<!--                    {% now "d" as current_day %}-->
+<!--                    <a href="/meal-plan/{{ current_year }}/{{ current_month }}/{{ current_day }}/add/"><i class="fa fa-calendar"></i></a>-->
+<!--                </div>-->
+<!--            </td>-->
+<!--            <td>-->
+<!--                <div class="shopping-add">-->
+<!--                    <i class="fa fa-shopping-basket"></i>-->
+<!--                </div>-->
+<!--            </td>-->
+             <td>
+                <div class="trash-remove">
+                    <form method="post">
+                        {% csrf_token %}
+                        <input type="hidden" id="delete_recipe" name="delete_recipe" value="{{ recipe_data.recipe_id.recipe_id }}">
+                        <button class="btn trash" type="submit"><i class="fa fa-trash"></i></i></button>
+                    </form>
+                </div>
+            </td>
+        </tr>
+        {% endfor %}
+        {% endif %}
+    </tbody>
+</table>
+<div class="pagination">
+    <span class="step-links">
+        {% if page_obj.has_previous %}
+            <a href="?search_recipe_box={{ search_query }}&select_option={{ list_sort }}&page={{ page_obj.previous_page_number }}"><i class="fa fa-caret-left"></i>previous</a>
+        {% endif %}
+        {% for page in page_obj.paginator %}
+            {% if page.number == page_obj.number %}
+                <span class="current">
+                    {{ page_obj.number }}
+                </span>
+            {% else %}
+                <a href="?search_recipe_box={{ search_query }}&select_option={{ list_sort }}&page={{ page.number }}">{{ page.number }}</a>
+            {% endif %}
+        {% endfor %}
+        {% if page_obj.has_next %}
+        <a href="?search_recipe_box={{ search_query }}&select_option={{ list_sort }}&page={{ page_obj.next_page_number }}">next<i class="fa fa-caret-right"></i></a>
+        {% endif %}
+    </span>
+</div>
+<script>
+    function DropDown(dropDown) {
+  const [toggler, menu] = dropDown.children;
+
+  const handleClickOut = e => {
+    if(!dropDown) {
+      return document.removeEventListener('click', handleClickOut);
+    }
+
+    if(!dropDown.contains(e.target)) {
+      this.toggle(false);
+    }
+  };
+
+  const setValue = (item) => {
+    const val = item.textContent;
+    toggler.textContent = val;
+    this.value = val;
+    this.toggle(false);
+    dropDown.dispatchEvent(new Event('change'));
+    toggler.focus();
+  }
+
+  const handleItemKeyDown = (e) => {
+    e.preventDefault();
+
+    if(e.keyCode === 38 && e.target.previousElementSibling) { // up
+      e.target.previousElementSibling.focus();
+    } else if(e.keyCode === 40 && e.target.nextElementSibling) { // down
+      e.target.nextElementSibling.focus();
+    } else if(e.keyCode === 27) { // escape key
+      this.toggle(false);
+    } else if(e.keyCode === 13 || e.keyCode === 32) { // enter or spacebar key
+      setValue(e.target);
+    }
+  }
+
+  const handleToggleKeyPress = (e) => {
+    e.preventDefault();
+
+    if(e.keyCode === 27) { // escape key
+      this.toggle(false);
+    } else if(e.keyCode === 13 || e.keyCode === 32) { // enter or spacebar key
+      this.toggle(true);
+    }
+  }
+
+  toggler.addEventListener('keydown', handleToggleKeyPress);
+  toggler.addEventListener('click', () => this.toggle());
+  [...menu.children].forEach(item => {
+    item.addEventListener('keydown', handleItemKeyDown);
+    item.addEventListener('click', () => setValue(item));
+  });
+
+  this.element = dropDown;
+
+  this.value = toggler.textContent;
+
+  this.toggle = (expand = null) => {
+    expand = expand === null
+      ? menu.getAttribute('aria-expanded') !== 'true'
+      : expand;
+
+    menu.setAttribute('aria-expanded', expand);
+
+    if(expand) {
+      toggler.classList.add('active');
+      menu.children[0].focus();
+      document.addEventListener('click', handleClickOut);
+      dropDown.dispatchEvent(new Event('opened'));
+    } else {
+      toggler.classList.remove('active');
+      dropDown.dispatchEvent(new Event('closed'));
+      document.removeEventListener('click', handleClickOut);
+      menu.querySelector('input').value = toggler.textContent;
+      document.querySelector('.container-search-recipes').querySelector('form').submit();
+    }
+  }
+}
+
+const dropDown = new DropDown(document.querySelector('.dropdown'));
+
+const resetButton = document.querySelector('#btn_reset')
+
+resetButton.addEventListener('click', function(e) {
+    e.preventDefault();
+    document.querySelector('#search_recipe_box').value = "";
+    document.querySelector('form').submit();
+})
+
+</script>
+{% endblock %}

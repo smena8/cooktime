@@ -1,0 +1,62 @@
+{% extends "mealplan/home.html" %}
+{% load static %}
+
+{% block content %}
+<div class="container-top">
+    {% if messages %}
+    <h3>{{ messages.success }}</h3>
+    {% endif %}
+    <div class="container-title">
+        <h1></h1>
+    </div>
+</div>
+<div class="form-container">
+    <div class="form-container-inner">
+        <h1>Add recipes to your meal plan.</h1>
+        {{ recipes }}
+        <form method = "POST" action = "">
+            {% csrf_token %}
+            <div class="form-container-input">
+                    {{ form.recipebox.errors }}
+                    <div class="container-form-select">
+                        <label for="{{ form.recipebox.id_for_label }}">Recipe Box</label>
+                        <select name="recipebox" required="" id="{{ form.recipebox.id_for_label }}">
+                        {% for option in form.recipebox %}
+                            {{ option }}
+                        {% endfor %}
+                        </select>
+                        <span class="select-custom-arrow"><i class="material-icons">keyboard_arrow_down</i></span>
+                    </div>
+            </div>
+            <div class="form-container-input">
+                <div>
+                    <div class="form-container-dates">
+                    {{ form.start_date.errors }}
+                        <div class="form-date-input">
+                            <label for="{{ form.start_date.id_for_label }}">Start Date</label>
+                            {{ form.start_date }}
+                        </div>
+                    {{ form.end_date.errors }}
+                        <div class="form-date-input">
+                            <label for="{{ form.end_date.id_for_label }}">End Date</label>
+                            {{ form.end_date }}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="form-container-input">
+                {{ form.course.errors }}
+                    <div class="container-form-select">
+                        <label for="{{ form.course.id_for_label }}">Course</label>
+                        {{ form.course }}
+                        <span class="select-custom-arrow"><i class="material-icons">keyboard_arrow_down</i></span>
+                    </div>
+            </div>
+            <button class="btn sec-clr" type="submit">Add to Meal Plan</button>
+        </form>
+    </div>
+    <div class="add-meal-img" style="background-image: url('{% static 'mealplan/media/jpg/titans_hot_chocolate_4.jpg' %}')">
+    </div>
+    </div>
+</div>
+{% endblock %}

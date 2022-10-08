@@ -1,0 +1,394 @@
+{% extends "mealplan/home.html" %}
+
+{% block content %}
+<head>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'mealplan/search-recipes.css' %}">
+</head>
+<div class="container-top">
+    {% if messages %}
+    <h3>{{ messages.success }}</h3>
+    {% endif %}
+    <h1>Search for recipes to add to your recipe box.</h1>
+    <div class="add-recipe-button">
+        <a href="/recipe-box/add-recipes-personal/" class="btn"><i class="material-icons">add</i>Add your own recipe</a>
+        <a href="/recipe-box/add-recipes-links/" class="btn"><i class="material-icons">add</i>Add recipe from url</a>
+    </div>
+</div>
+<!--        <div class="sort-filter-options-menu">-->
+<!--            <label for="sort-filter-options-menu">-->
+<!--                <span class="options-menu-title">Sort by</span>-->
+<!--                <span class="selected-option-text">Highest Rated</span>-->
+<!--            </label>-->
+<!--            <ul>-->
+<!--                <li class="" data-disabled="false" data-value="relevance">-->
+<!--                    <span class="option-text">Relevance</span></li>-->
+<!--                <li class="" data-disabled="false" data-value="newest">-->
+<!--                    <span class="option-text">Newest</span></li>-->
+<!--                <li class="selected-option" data-disabled="false" data-value="highestRated">-->
+<!--                    <span class="option-text">Highest Rated</span></li>-->
+<!--            </ul>-->
+<!--            <select id="sort-filter-options-menu" name="sort-filter">-->
+<!--                <option selected="" value="relevance">Relevance</option>-->
+<!--                <option value="newest">Newest</option>-->
+<!--                <option value="highestRated">Highest Rated</option>-->
+<!--            </select>-->
+<!--        </div>-->
+    <div class="container-search-outer-fr">
+        <div class="container-search-filter">
+                <form method="get">
+                    <div class="container-search-sort">
+                        <label>Search ingredient or name:</label>
+                        <div class="search-form">
+                            <input class="search-recipes" type="text" id="search_recipes" name="query" value="{{ query }}" placeholder="Vegan scramble..." >
+                            <button type="submit"><i class="material-icons">search</i></button>
+                        </div>
+                        <a class="advanced-search" href="">Advanced Search</a>
+                    </div>
+                    <div class="container-filter">
+                        <div class="filter-header-title">
+                            <h3><i class="material-icons">keyboard_arrow_down</i>Filters</h3>
+                            <div class="filter-buttons">
+                                <button type="submit">Filter</button>
+                                <button type="reset" id="btn_reset" name="btn_reset">Clear All</button>
+                            </div>
+                        </div>
+                        {% if filtered %}
+                            <ul class="container-filtered-list">
+                                {% for filter in filtered %}
+                                <li class="btn"><p>{{ filter }}</p><i class="fa fa-times filter-remove" aria-hidden="true"></i></li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        <div>
+                            <h4>Meal Type<i class="material-icons">keyboard_arrow_down</i></h4>
+                            <div class="filter-options-container hidden">
+                                <div class="filter-options">
+                                <div class="option-container">
+                                <input type="checkbox" value="breakfast" id="type_breakfast" name="type">
+                                <label for="type_breakfast">Breakfast</label>
+                                </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="lunch" id="type_lunch" name="type">
+                                <label for="type_lunch">Lunch</label>
+                                </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="brunch" id="type_brunch" name="type">
+                                <label for="type_brunch">Brunch</label>
+                                </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="dinner" id="type_dinner" name="type">
+                                <label for="type_dinner">Dinner</label>
+                                </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="main course" id="type_main_course" name="type">
+                                <label for="type_main_course">Main Course</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="side dish" id="type_side_dish" name="type">
+                                <label for="type_side_dish">Side Dish</label>
+                            </div>
+                                 <div class="option-container">
+                                <input type="checkbox" value="dessert" id="type_dessert" name="type">
+                                <label for="type_dessert">Dessert</label>
+                            </div>
+                                 <div class="option-container">
+                                <input type="checkbox" value="appetizer" id="type_appetizer" name="type">
+                                <label for="type_appetizer">Appetizer</label>
+                            </div>
+                                 <div class="option-container">
+                                <input type="checkbox" value="salad" id="type_salad" name="type">
+                                <label for="type_salad">Salad</label>
+                            </div>
+                                 <div class="option-container">
+                                <input type="checkbox" value="bread" id="type_bread" name="type">
+                                <label for="type_bread">Bread</label>
+                            </div>
+                                 <div class="option-container">
+                                <input type="checkbox" value="soup" id="type_soup" name="type">
+                                <label for="type_soup">Soup</label>
+                            </div>
+                                 <div class="option-container">
+                                <input type="checkbox" value="beverage" id="type_beverage" name="type">
+                                <label for="type_beverage">Beverage</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="sauce" id="type_sauce" name="type">
+                                <label for="type_sauce">Sauce</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="marinade" id="type_marinade" name="type">
+                                <label for="type_marinade">Marinade</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="fingerfood" id="type_fingerfood" name="type">
+                                <label for="type_fingerfood">Fingerfood</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="snack" id="type_snack" name="type">
+                                <label for="type_snack">Snack</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="drink" id="type_drink" name="type">
+                                <label for="type_drink">Drink</label>
+                            </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4>Cuisine<i class="material-icons">keyboard_arrow_down</i></h4>
+                            <div class="filter-options-container hidden">
+                                <div class="filter-options">
+                                <div class="option-container">
+                                <input type="checkbox" value="african" id="cuisine_african" name="cuisine">
+                                <label for="cuisine_african">African</label>
+                                </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="american" id="cuisine_american" name="cuisine">
+                                <label for="cuisine_american">American</label>
+                                </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="british" id="cuisine_british" name="cuisine">
+                                <label for="cuisine_british">British</label>
+                                </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="cajun" id="cuisine_cajun" name="cuisine">
+                                <label for="cuisine_cajun">Cajun</label>
+                                </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="caribbean" id="cuisine_caribbean" name="cuisine">
+                                <label for="cuisine_caribbean">Caribbean</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="chinese" id="cuisine_chinese" name="cuisine">
+                                <label for="cuisine_chinese">Chinese</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="eastern european" id="cuisine_eastern_european" name="cuisine">
+                                <label for="cuisine_eastern_european">Eastern European</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="european" id="cuisine_european" name="cuisine">
+                                <label for="cuisine_european">European</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="french" id="cuisine_french" name="cuisine">
+                                <label for="cuisine_french">French</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="german" id="cuisine_german" name="cuisine">
+                                <label for="cuisine_german">German</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="greek" id="cuisine_greek" name="cuisine">
+                                <label for="cuisine_greek">Greek</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="indian" id="cuisine_indian" name="cuisine">
+                                <label for="cuisine_indian">Indian</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="irish" id="cuisine_irish" name="cuisine">
+                                <label for="cuisine_irish">Irish</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="italian" id="cuisine_italian" name="cuisine">
+                                <label for="cuisine_italian">Italian</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="japanese" id="cuisine_japanese" name="cuisine">
+                                <label for="cuisine_japanese">Japanese</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="jewish" id="cuisine_jewish" name="cuisine">
+                                <label for="cuisine_jewish">Jewish</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="korean" id="cuisine_korean" name="cuisine">
+                                <label for="cuisine_korean">Korean</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="latin american" id="cuisine_latin_american" name="cuisine">
+                                <label for="cuisine_latin_american">Latin American</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="mediterranean" id="cuisine_mediterranean" name="cuisine">
+                                <label for="cuisine_mediterranean">Mediterranean</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="mexican" id="cuisine_mexican" name="cuisine">
+                                <label for="cuisine_mexican">Mexican</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="middle eastern" id="cuisine_middle_eastern" name="cuisine">
+                                <label for="cuisine_middle_eastern">Middle Eastern</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="nordic" id="cuisine_nordic" name="cuisine">
+                                <label for="cuisine_nordic">Nordic</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="southern" id="cuisine_southern" name="cuisine">
+                                <label for="cuisine_southern">Southern</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="spanish" id="cuisine_spanish" name="cuisine">
+                                <label for="cuisine_spanish">Spanish</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="thai" id="cuisine_thai" name="cuisine">
+                                <label for="cuisine_thai">Thai</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="vietnamese" id="cuisine_vietnamese" name="cuisine">
+                                <label for="cuisine_vietnamese">Vietnamese</label>
+                            </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4>Diet<i class="material-icons">keyboard_arrow_down</i></h4>
+                            <div class="filter-options-container hidden">
+                                <div class="filter-options">
+                                <div class="option-container">
+                                <input type="checkbox" value="gluten free" id="diet_gluten_free" name="diet">
+                                <label for="diet_gluten_free">Gluten Free</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="ketogenic" id="diet_ketogenic" name="diet">
+                                <label for="diet_ketogenic">Ketogenic</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="vegetarian" id="diet_vegetarian" name="diet">
+                                <label for="diet_vegetarian">Vegetarian</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="lacto-vegetarian" id="diet_lacto_vegetarian" name="diet">
+                                <label for="diet_lacto_vegetarian">Lacto-Vegetarian</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="ovo-vegetarian" id="diet_ovo_vegetarian" name="diet">
+                                <label for="diet_ovo_vegetarian">Ovo-Vegetarian</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="vegan" id="diet_vegan" name="diet">
+                                <label for="diet_vegan">Vegan</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="pescetarian" id="diet_pescetarian" name="diet">
+                                <label for="diet_pescetarian">Pescetarian</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="paleo" id="diet_paleo" name="diet">
+                                <label for="diet_paleo">Paleo</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="primal" id="diet_primal" name="diet">
+                                <label for="diet_primal">Primal</label>
+                            </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="whole30" id="diet_whole30" name="diet">
+                                <label for="diet_whole30">Whole30</label>
+                            </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div>
+                            <h4>Allergy/Intolerance<i class="material-icons">keyboard_arrow_down</i></h4>
+                            <div class="filter-options-container hidden">
+                                <div class="filter-options">
+                                <div class="option-container">
+                                <input type="checkbox" value="dairy" id="allerg_dairy" name="intolerances">
+                                <label for="allerg_dairy">Dairy</label>
+                                </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="egg" id="allerg_egg" name="intolerances">
+                                <label for="allerg_egg">Egg</label>
+                                </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="gluten" id="allerg_gluten" name="intolerances">
+                                <label for="allerg_gluten">Gluten</label>
+                                </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="grain" id="allerg_grain" name="intolerances">
+                                <label for="allerg_grain">Grain</label>
+                                </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="peanut" id="allerg_peanut" name="intolerances">
+                                <label for="allerg_peanut">Peanut</label>
+                                </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="seafood" id="allerg_seafood" name="intolerances">
+                                <label for="allerg_seafood">Seafood</label>
+                                </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="sesame" id="allerg_sesame" name="intolerances">
+                                <label for="allerg_sesame">Sesame</label>
+                                </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="shellfish" id="allerg_shellfish" name="intolerances">
+                                <label for="allerg_shellfish">Shellfish</label>
+                                </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="soy" id="allerg_soy" name="intolerances">
+                                <label for="allerg_soy">Soy</label>
+                                </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="sulfite" id="allerg_sulfite" name="intolerances">
+                                <label for="allerg_sulfite">Sulfite</label>
+                                </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="tree nut" id="allerg_tree_nut" name="intolerances">
+                                <label for="allerg_tree_nut">Tree Nut</label>
+                                </div>
+                                <div class="option-container">
+                                <input type="checkbox" value="wheat" id="allerg_wheat" name="intolerances">
+                                <label for="allerg_wheat">Wheat</label>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        {% if results %}
+        <div class="container-search-results">
+            {% for r in results %}
+            <div class="container-result-details">
+                <a href="{{ r.sourceUrl }}" target="_blank"><img alt="{{ r.title }}" src="{{ r.image }}"></a>
+                <div class="result-details-extras">
+                    <div class="result-likes">
+                        <i class="fa fa-heart"></i>
+                        <span><p>{{ r.aggregateLikes }}</p></span>
+                    </div>
+                    <div class="result-diets">
+                        {% if r.vegan %}
+                         <svg class="svg-container" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 90"><defs></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="vegan-svg" d="M42.88,85.77A42.89,42.89,0,1,1,85.76,42.88,42.94,42.94,0,0,1,42.88,85.77Zm0-81.66A38.77,38.77,0,1,0,81.65,42.88,38.81,38.81,0,0,0,42.88,4.11Z"/><path class="vegan-svg" d="M18.65,24.58c-1.56-1.4-1.52-3-.5-4.13a2.27,2.27,0,0,1,3.06-.56l-.57,1.19c-.65-.32-1.2-.42-1.67.11s-.36,1.56.57,2.4,1.88,1,2.49.33.38-1.09-.1-1.8L23,21.37a2.39,2.39,0,0,1-.16,3.27C21.77,25.81,20.24,26,18.65,24.58Z"/><path class="vegan-svg" d="M26.18,21.3l-3.35-5L26.25,14l.61.92-2.31,1.55.72,1.07,1.67-1.11.58.87-1.67,1.12.83,1.24,2.43-1.62.6.89Z"/><path class="vegan-svg" d="M31.63,18l-2-5.71,2.14-.76c1.41-.51,2.43-.31,2.88,1a1.62,1.62,0,0,1-.6,2l2.1,1.86-1.33.48-2-1.73-.72.26.77,2.15Zm.12-3.56.85-.31c.73-.26,1-.59.8-1.17s-.63-.65-1.35-.39l-.86.31Z"/><path class="vegan-svg" d="M39.51,15.85,39,10.93l-1.8.18L37.11,10,42,9.51l.11,1.11-1.8.18.49,4.92Z"/><path class="vegan-svg" d="M45.28,15.76l.65-6,1.31.14-.65,6Z"/><path class="vegan-svg" d="M49.7,16.46l1.9-5.76L55.4,12,55.05,13l-2.53-.84-.47,1.4,1.81.59-.33,1-1.81-.6L51,16.88Z"/><path class="vegan-svg" d="M55.92,19l3-5.24,1.15.66-3,5.24Z"/><path class="vegan-svg" d="M59.66,21.36l4-4.51,3.07,2.75-.75.83L64,18.57l-.87,1,1.51,1.34-.71.79-1.5-1.35-1,1.12,2.19,2-.72.8Z"/><path class="vegan-svg" d="M64.22,25.81l5-3.34,1,1.54c1,1.53,1.13,3.11-.69,4.33s-3.32.52-4.33-1Zm1.62.5.35.52c.72,1.09,1.49,1.17,2.63.42s1.29-1.47.55-2.57l-.33-.5Z"/><path class="vegan-svg" d="M24.9,73.4l1.17-6.3,1.17.67-.93,4.42h0l3.36-3,1.09.61L26,74Z"/><path class="vegan-svg" d="M31.4,76.42,33,70.62,37,71.73l-.3,1.06L34,72l-.35,1.25,1.94.54-.29,1-1.93-.54L33,75.74l2.82.79-.29,1Z"/><path class="vegan-svg" d="M39.06,75.12c.06-1.9,1.15-3.08,2.84-3a2.28,2.28,0,0,1,2.38,2l-1.22.3c-.23-.85-.6-1.19-1.2-1.21s-1.41.25-1.46,1.94.75,2.14,1.39,2.16a1.23,1.23,0,0,0,1.28-1.05l-1.06,0,0-1,2.32.07-.09,3-1.07,0,0-.83h0a1.66,1.66,0,0,1-1.6.89C39.78,78.3,39,76.94,39.06,75.12Z"/><path class="vegan-svg" d="M47.85,78l.78-6.38,1.24-.27,3.39,5.46-1.32.29-.72-1.22-2,.44-.16,1.42Zm1.47-2.69,1.39-.3-1.12-1.86h0Z"/><path class="vegan-svg" d="M56.91,75.47l-2.78-5.38,1.19-.61,4,2.27h0L57.59,68.3l1.09-.56,2.78,5.38-1.09.57-4.14-2.25h0L58,74.91Z"/><path class="vegan-svg" d="M39.57,62.1,28.62,30.19h7.09L43,52.91h.08l7.52-22.72h6.57l-11,31.91Z"/><path class="vegan-svg" d="M23.55,104.57,20.08,94.46h2.25l2.3,7.2h0L27,94.46h2.08l-3.47,10.11Z"/><path class="vegan-svg" d="M30.66,104.53V94.46h6.86v1.85H32.88v2.16h3.36v1.76H32.88v2.5h4.88v1.8Z"/><path class="vegan-svg" d="M38.73,99.45c0-3.16,1.75-5.18,4.58-5.18a3.8,3.8,0,0,1,4.07,3.22l-2,.56c-.43-1.4-1.07-2-2.06-2-.82,0-2.34.48-2.34,3.31s1.36,3.53,2.44,3.53a2,2,0,0,0,2.06-1.81H43.71V99.48h3.86v5H45.79v-1.39h0a2.76,2.76,0,0,1-2.62,1.58C40.09,104.72,38.73,102.49,38.73,99.45Z"/><path class="vegan-svg" d="M48.89,104.53l3.57-10.11h2.11l3.56,10.11H55.89l-.75-2.25H51.71l-.78,2.25Zm3.36-3.85h2.37l-1.15-3.43h0Z"/><path class="vegan-svg" d="M59.67,104.53V94.46h2.22l4.22,6.42h0V94.46h2v10.07h-2l-4.4-6.48h0v6.48Z"/></g></g></svg>
+                        {% endif %}
+                        {% if r.glutenFree %}
+                        <svg class="svg-container" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 10 90"><defs></defs><g id="Layer_2" data-name="Layer 2"><g id="Layer_1-2" data-name="Layer 1"><path class="gf-svg" d="M42.88,85.77A42.89,42.89,0,1,1,85.76,42.88,42.94,42.94,0,0,1,42.88,85.77Zm0-81.66A38.77,38.77,0,1,0,81.65,42.88,38.81,38.81,0,0,0,42.88,4.11Z"/><polygon class="gf-svg" points="16.1 75.02 13.19 72.11 32.6 52.7 34.35 56.76 16.1 75.02"/><polygon class="gf-svg" points="37.97 53.15 34.06 51.24 36.59 48.71 39.93 51.19 37.97 53.15"/><polygon class="gf-svg" points="45.47 45.65 41.56 43.74 45.31 39.99 52.18 38.94 45.47 45.65"/><polygon class="gf-svg" points="54.97 36.15 55.15 30.16 71.71 13.6 74.61 16.5 54.97 36.15"/><path class="gf-svg" d="M56.24,30a1.38,1.38,0,0,0-.31-.46c-.21-.21-.63-.48-1.78-.48A11.35,11.35,0,0,0,46.91,32a9.86,9.86,0,0,0-1.48,1.77V31.82A10.43,10.43,0,0,0,49,24.42c0-4-3-6.69-4.26-7l-.27,0c-1.65,0-4.37,3.27-4.37,7a10.47,10.47,0,0,0,3.53,7.4v2A10.39,10.39,0,0,0,42.11,32a11.36,11.36,0,0,0-7.26-2.88,2.38,2.38,0,0,0-1.77.47,2.32,2.32,0,0,0-.53,1.74,10.15,10.15,0,0,0,3.09,6.93,11.14,11.14,0,0,0,7.12,3,5.18,5.18,0,0,0,.84-.07v1.65l-1,1c-.21-.23-.4-.46-.63-.68a11.68,11.68,0,0,0-7.44-3,2.33,2.33,0,0,0-1.75.47,2.27,2.27,0,0,0-.52,1.71,10.47,10.47,0,0,0,3.18,7.11,9.86,9.86,0,0,0,.79.66l-.79.79,0,0c-.33,0-.63-.06-.89-.06A1.85,1.85,0,0,0,32.24,53a8.69,8.69,0,0,0,.07.94l-.76.76c.48.48,1,.93,1.48,1.39l-.14.15a10.07,10.07,0,0,0,2.53,3.86,11.47,11.47,0,0,0,7.3,3.06,4.5,4.5,0,0,0,.88-.09v5.21a.92.92,0,0,0,1.83,0V63.14a5.74,5.74,0,0,0,.88.08,11.27,11.27,0,0,0,7.17-2.95,10.1,10.1,0,0,0,3.07-7A2.37,2.37,0,0,0,56,51.49c-.22-.21-.65-.49-1.85-.49a11.23,11.23,0,0,0-7.3,2.87,10.25,10.25,0,0,0-1.42,1.7V52.41a4.52,4.52,0,0,0,.87.08,11.21,11.21,0,0,0,7.17-3,10.1,10.1,0,0,0,3.07-7A2.4,2.4,0,0,0,56,40.76a2.45,2.45,0,0,0-1.84-.49,11.22,11.22,0,0,0-7.31,2.88,9.8,9.8,0,0,0-1.42,1.69v-1l2.88-2.89a11.36,11.36,0,0,0,5.07-2.67,10.32,10.32,0,0,0,2.91-5.4v0M48.12,55.21a9.44,9.44,0,0,1,6-2.38c.24,0,.42,0,.54,0a8.05,8.05,0,0,1-2.48,6.07,9.38,9.38,0,0,1-5.91,2.46,2.69,2.69,0,0,1-.71-.08C45.32,60.56,45.74,57.45,48.12,55.21Zm0-10.73a9.48,9.48,0,0,1,6-2.37,3.57,3.57,0,0,1,.54,0,8.05,8.05,0,0,1-2.48,6.07,9.42,9.42,0,0,1-5.91,2.45,2.85,2.85,0,0,1-.71-.07C45.32,49.83,45.74,46.73,48.12,44.48Zm.05-11.17a9.52,9.52,0,0,1,6-2.38,2.61,2.61,0,0,1,.46,0,8,8,0,0,1-2.48,5.95,9.32,9.32,0,0,1-5.85,2.45,2.42,2.42,0,0,1-.64-.07C45.39,38.53,45.84,35.5,48.17,33.31ZM41.9,24.42a6.57,6.57,0,0,1,2.49-5.14,6.2,6.2,0,0,1,2.75,5.14,9.11,9.11,0,0,1-2.62,5.84A9.11,9.11,0,0,1,41.9,24.42Zm1.49,14.87a2.53,2.53,0,0,1-.63.06,9.33,9.33,0,0,1-5.87-2.45,8.1,8.1,0,0,1-2.49-6,9.49,9.49,0,0,1,6.45,2.37C43.17,35.5,43.63,38.53,43.39,39.29Zm.21,16.57a10.42,10.42,0,0,0-1.65-2,11.14,11.14,0,0,0-4.21-2.42l.23-.22a11,11,0,0,0,4.75,1.28,4.58,4.58,0,0,0,.88-.09ZM34.08,42a9.92,9.92,0,0,1,6.61,2.46c2.39,2.26,2.89,5.36,2.64,6.14a2.34,2.34,0,0,1-.61.06,9.65,9.65,0,0,1-6-2.55A8.36,8.36,0,0,1,34.08,42Zm0,10.73a9.85,9.85,0,0,1,6.61,2.46c2.39,2.26,2.89,5.36,2.64,6.14a2.34,2.34,0,0,1-.61.06,9.63,9.63,0,0,1-6-2.56A8.34,8.34,0,0,1,34.08,52.7Z"/><path class="gf-svg" d="M14.5,99.18C14.5,96,16.25,94,19.08,94a3.81,3.81,0,0,1,4.08,3.23l-2,.55c-.43-1.4-1.06-1.94-2.06-1.94-.81,0-2.34.48-2.34,3.31s1.36,3.52,2.44,3.52a2,2,0,0,0,2.07-1.81H19.48V99.2h3.87v5H21.56v-1.39h0a2.79,2.79,0,0,1-2.63,1.58C15.86,104.44,14.5,102.21,14.5,99.18Z"/><path class="gf-svg" d="M25.6,104.25V94.18h2.22v8.28h4.44v1.79Z"/><path class="gf-svg" d="M33.14,100.4V94.18h2.22v6.17c0,1.45.56,2.27,1.88,2.27s1.85-.8,1.85-2.27V94.18h2.18v6.21c0,2.47-1.25,4-4.06,4S33.14,102.86,33.14,100.4Z"/><path class="gf-svg" d="M45.7,104.25V96h-3V94.18h8.22V96h-3v8.22Z"/><path class="gf-svg" d="M52.53,104.25V94.18h6.86V96H54.75V98.2h3.37V100H54.75v2.51h4.89v1.79Z"/><path class="gf-svg" d="M61.42,104.25V94.18h2.22l4.22,6.43h0V94.18h2v10.07h-2l-4.4-6.48h0v6.48Z"/><path class="gf-svg" d="M25.68,117.86V107.79h6.65v1.85H27.9v2.45h3.15v1.76H27.9v4Z"/><path class="gf-svg" d="M33.92,117.86V107.79h3.79c2.48,0,4,.89,4,3.12a2.69,2.69,0,0,1-2.1,2.87l2.25,4.08H39.48l-2.1-3.8H36.1v3.8Zm2.18-5.51h1.51c1.28,0,1.9-.37,1.9-1.39s-.62-1.36-1.9-1.36H36.1Z"/><path class="gf-svg" d="M43.79,117.86V107.79h6.86v1.85H46v2.16h3.36v1.76H46v2.51h4.88v1.79Z"/><path class="gf-svg" d="M52.68,117.86V107.79h6.86v1.85H54.9v2.16h3.36v1.76H54.9v2.51h4.88v1.79Z"/></g></g></svg>                        {% endif %}
+                    </div>
+                </div>
+                <div class="result-details-text">
+                    <p>{{ r.title }}</p>
+                </div>
+                <form method="post">
+                    {% if r.id in recipebox %}
+                        <button class="btn recipe-added" aria-disabled="true" disabled><i class="material-icons">check</i>Added to recipe box</button>
+                    {% else %}
+                        {% csrf_token %}
+                        <input class="hidden" value="{{ r.id }}" id="recipe_id" name="recipe_id">
+                        <button type="submit"><i class="material-icons">add</i>Add to recipe box</button>
+                    {% endif %}
+                </form>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="container-search-results">
+                <h2>No recipes found.</h2>
+        </div>
+        {% endif %}
+    </div>
+<script type="text/javascript" src="{% static 'mealplan/search-recipes.js' %}"></script>
+{% endblock %}

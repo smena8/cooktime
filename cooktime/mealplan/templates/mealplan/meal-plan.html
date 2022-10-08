@@ -1,0 +1,64 @@
+{% extends "mealplan/home.html" %}
+
+{% block content %}
+<div class="container-top">
+    {% if messages %}
+    <h3>{{ messages.success }}</h3>
+    {% endif %}
+    <div class="container-meal-plan-title">
+        <h1>Meal plan for {{ week_dates.Monday }} - {{ week_dates.Sunday }}</h1>
+        <div class="container-week-links">
+            <a href="/meal-plan/{{ links.last_week.year }}/{{ links.last_week.month }}/{{ links.last_week.day }}/"><i class="fa fa-caret-left"></i>Previous Week</a>
+            <a href="/meal-plan/{{ links.next_week.year }}/{{ links.next_week.month }}/{{ links.next_week.day }}/">Next Week<i class="fa fa-caret-right"></i></a>
+        </div>
+    </div>
+</div>
+<div class="container-add-to-shopping-list">
+    <form method="post">
+        {% csrf_token %}
+        <input type="text" value="" id="shopping_list_title" name="shopping_list_title" placeholder="Type shopping list title">
+        <datalist id="shopping_list">
+            {% for result in search_results %}
+            <option value="{{ result.list_title }}"></option>
+            {% endfor %}
+        </datalist>
+        <button type="submit">Add Week To Shopping List</button>
+    </form>
+</div>
+<div  class="container__calendar">
+    <div class="container__meal_plan">
+        {% for day, date in week_dates.items %}
+        <div class="container__day">
+                <div class="container__day__title">
+                    <h4>{{ day }}</h4>
+                    <h5>{{ date }}</h5>
+                </div>
+                <li>&nbsp; </li>
+                {% for value, text in courses %}
+                    <div class="calendar__course">
+                    <a href="/meal-plan/{{ date.year }}/{{ date.month }}/{{ date.day }}/add/">{{ text }}</a>
+                    <br>
+                        {% for meal in meal_plan %}
+                        {% if meal.start_date == date %}
+                        <div class="course__recipe">
+                            {% if meal.get_course_display == text %}
+                               <a href="{{ meal.recipebox.recipe_id.source_url }}" target="_blank">
+                                   <img src="{{ meal.recipebox.recipe_id.image }}">
+                                   <div>
+                                       <strong>{{ meal.recipebox.recipe_id.recipe_name }}</strong>
+                                        {% if meal.recipebox.favorite %}
+                                        <span class="container-favorite"><i class="fa fa-heart" aria-hidden="true"></i></span>
+                                        {% endif %}
+                                   </div>
+                               </a>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                    {% endfor %}
+                        </div>
+                {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

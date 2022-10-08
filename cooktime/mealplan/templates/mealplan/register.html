@@ -1,0 +1,68 @@
+{% extends "mealplan/home.html" %}
+{% load static %}
+{% block content %}
+<section class="hero-container">
+    <div class="hero-container-inner">
+        <div class="hero-img" style="background-image: url('{% static 'mealplan/media/jpg/titans_hot_food_0.jpg' %}')"></div>
+        <div class="hero-text">
+            <h1>Meal planning made simple.</h1>
+            <p>Plan weeks ahead, save recipes, and generate shopping lists.</p>
+            <form method="POST">
+                {% csrf_token %}
+                <legend>Start planning today!</legend>
+                <div class="register-form">
+                    {{ form.non_field_errors }}
+                    <div class="register-form-input">
+                        <div>
+                        {{ form.firstname.errors }}
+                        <label for="{{ form.firstname.id_for_label }}">First name</label>
+                        {{ form.firstname }}
+                        </div>
+                        <div>
+                        {{ form.lastname.errors }}
+                        <label for="{{ form.lastname.id_for_label }}">Last name</label>
+                        {{ form.lastname }}
+                        </div>
+                    </div>
+                    <div class="register-form-input">
+                        <div>
+                        {{ form.username.errors }}
+                        <label for="{{ form.username.id_for_label }}">Username</label>
+                        {{ form.username }}
+                        </div>
+                        <div>
+                        {{ form.email.errors }}
+                        <label for="{{ form.email.id_for_label }}">Email</label>
+                        {{ form.email }}
+                        </div>
+                    </div>
+                    <div class="register-form-input">
+                        <div>
+                        {{ form.password1.errors }}
+                        <label for="{{ form.password1.id_for_label }}">Password</label>
+                        {{ form.password1 }}
+                        </div>
+                        <div>
+                        {{ form.password2.errors }}
+                        <label for="{{ form.password2.id_for_label }}">Password Confirm</label>
+                        {{ form.password2 }}
+                        </div>
+                    </div>
+                    <div class="register-form-input">
+                        {{ form.tnc }}
+                        <div>
+                         <label for="{{ form.tnc.id_for_label }}">By signing in, you are agreeing to our
+                             <a>Terms of Service</a> and our <a>Privacy Policy—Your California Rights</a>.</label>
+                        </div>
+                    </div>
+                    <button class="btn sec-clr" type="submit">Create Account</button>
+                </div>
+            </form>
+            <small>
+                Already have an account?
+                <a class="ml-2" href="{% url 'login' %}">Sign in</a>
+            </small>
+        </div>
+    </div>
+</section>
+{% endblock %}

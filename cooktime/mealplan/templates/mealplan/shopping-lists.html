@@ -1,0 +1,47 @@
+{% extends "mealplan/home.html" %}
+
+{% block content %}
+<div class="container-top">
+    {% if messages %}
+    <h3>{{ messages.success }}</h3>
+    {% endif %}
+    <h1>Browse your shopping lists.</h1>
+    <div class="add-recipe-button">
+        <div class="meal-plan-add">
+            {% now "Y" as current_year %}
+            {% now "m" as current_month %}
+            {% now "d" as current_day %}
+            <a href="/meal-plan/{{ current_year }}/{{ current_month }}/{{ current_day }}/"class="btn">
+                <i class="material-icons">add</i>
+                Create from meal plan
+            </a>
+        </div>
+    </div>
+</div>
+<table>
+    <thead>
+        <tr>
+            <th>Shopping List</th>
+            <th>Edit</th>
+            <th>Remove</th>
+        </tr>
+    </thead>
+    {% for list in shopping_lists %}
+  <tr>
+      <td><a href="{% url 'shopping-lists-detail' list.uuid %}">{{ list.list_title }}</a></td>
+      <td><a href="{% url 'shopping-lists-detail' list.uuid %}">
+          <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+          </a>
+      </td>
+      <td>
+            <form method="POST">
+                    {% csrf_token %}
+                            <input type="hidden" id="delete_list" name="delete_list" value="{{ list.list_title }}">
+                            <button class="btn trash" type="submit"><i class="fa fa-trash"></i></button>
+            </form>
+      </td>
+  </tr>
+            {% endfor %}
+
+</table>
+{% endblock %}

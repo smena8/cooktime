@@ -1,0 +1,104 @@
+{% extends "mealplan/home.html" %}
+
+{% load static %}
+{% block content %}
+<div class="container-top">
+    {% if messages %}
+    <h3>{{ messages.success }}</h3>
+    {% endif %}
+    <h1>Add recipes from your favorite websites.</h1>
+    <form action="" method="post">
+        {% csrf_token %}
+        <input type="url" name="search-box" value="" size="40" aria-required="true" aria-invalid="false" placeholder="Paste recipe link...">
+        <button type="submit"><i class="material-icons">add</i>Add to recipe box</button>
+    </form>
+</div>
+{% if recipe_data %}
+<div class="recipe-card">
+        <img alt="{{ recipe_data.recipe_id.recipe_name }}" src="{{ recipe_data.recipe_id.image }}">
+        <div class="recipe-card-content">
+            <div class="container-title">
+                <a href="{{ recipe_data.recipe_id.source_url }}" target="_blank"><h2 class="recipe-card-title">{{ recipe_data.recipe_id.recipe_name }}</h2></a>
+                <div class="share-container">
+                    <div class="share-pop hidden">
+                        <div class="bubble">
+                            <div class="social-share-icon">
+                                <ul class="social-icons">
+                                  <li>
+                                      <a target="_blank" class="fa fa-facebook" href="https://facebook.com/sharer/sharer.php?kid_directed_site=0&sdk=joey&u=https%3A%2F%2Fwww.your-domain.com%2Fyour-page.html&display=popup&ref=plugin&src=share_button" data-href="https://www.your-domain.com/your-page.html">
+                                      </a>
+                                  </li>
+                                  <li>
+                                      <a target="_blank" href="https://twitter.com/share?ref_src=twsrc%5Etfw" class="fa fa-twitter" data-show-count="false">
+                                      </a>
+                                  </li>
+                                  <li>
+                                      <a target="_blank" class="fa fa-pinterest" data-pin-do="buttonPin" href="https://www.pinterest.com/pin/create/button/?description=So%20delicious!" data-pin-custom="true"></a>
+                                      </a>
+                                  </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                    <i id="share_button" class="material-icons">share</i>
+                    <i id="print_button" class="material-icons">print</i>
+                </div>
+            </div>
+            {% if recipe_data.recipe_id.credits_text %}
+            <a href="{{ recipe_data.recipe_id.source_url }}" target="_blank">{{ recipe_data.recipe_id.credits_text }}</a>
+            {% endif %}
+            <div class="recipe-card-numbers">
+                {% if recipe_data.recipe_id.minutes %}
+                <h3>{{ recipe_data.recipe_id.minutes }} minutes</h3>
+                {% endif %}
+                {% if recipe_data.recipe_id.servings %}
+                <h3>{{ recipe_data.recipe_id.servings }} servings</h3>
+                {% endif %}
+                {% if recipe_data.recipe_id.ingredients %}
+                <h3>{{ recipe_data.recipe_id.ingredients }} ingredients</h3>
+                {% endif %}
+<!--                {% if recipe_data.nutrients.calories %}-->
+<!--                <h3>{{ recipe_data.nutrients.calories }}</h3>-->
+<!--                {% endif %}-->
+            </div>
+            <div class="ingredient-container">
+                <div class="ingredient-title-container">
+                    <h2>Ingredients</h2>
+                </div>
+                <ul>
+                    {% for ing in recipe_ings %}
+                    {% if ing.size %}
+                    <li>{{ ing.size }} {{ ing.ingredient_id.ingredient_name }}</li>
+                    {% else %}
+                    <li>{{ ing.measurement.us_oz|floatformat }} oz {{ ing.ingredient_id.ingredient_name }}</li>
+                    {% endif %}
+                    {% endfor %}
+                </ul>
+            </div>
+            <h2>Directions</h2>
+            {{ recipe_data.recipe_id.instructions }}
+            {% if recipe_data.instructions|length > 1 %}
+                <ul class="instructions-list">
+                {% for d in recipe_data.instructions %}
+                    <div class="bullet">
+                        <span class="circle"></span>
+                        <p class="circle2">{{ forloop.counter }}</p>
+                    </div>
+                    <li class="">{{ d }}</li>
+                {% endfor %}
+                </ul>
+            {% else %}
+                {% for d in recipe_data.instructions %}
+                    <p class="instructions-no-list">{{ d }}</p>
+                {% endfor %}
+            {% endif %}
+        </div>
+</div>
+{% endif %}
+<script type="text/javascript" src="{% static 'mealplan/meal-planner.js' %}"></script>
+<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+<script async defer src="//assets.pinterest.com/js/pinit.js"></script>
+{% endblock %}
+
+
+

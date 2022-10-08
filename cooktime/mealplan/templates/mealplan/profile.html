@@ -1,0 +1,29 @@
+{% extends "mealplan/home.html" %}
+
+
+{% block content %}
+<div>
+    <div class="profile-container">
+        <h1>Welcome, {{ user.first_name }}!</h1>
+        <div class="">
+          <div class="">
+            <img height="300px" width="300px" class="profile-img"
+                 style="background-image: url('{{ user.profile.image.url }}');
+                        background-position: center;">
+            <div class="">
+              <h2 class="">{{ user.username }}</h2>
+              <p class="">{{ user.email }}</p>
+            </div>
+          </div>
+        </div>
+    </div>
+    <form class="profile-form" method="POST" enctype="multipart/form-data">
+        {% load cloudinary %}
+        {% csrf_token %}
+            <legend>Change Profile Info</legend>
+            {{ u_form.as_p }}
+            {{ p_form.as_p }}
+            <button class="btn" type="submit">Update</button>
+    </form>
+</div>
+{% endblock %}

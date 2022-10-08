@@ -1,0 +1,103 @@
+{% extends "mealplan/home.html" %}
+
+{% block content %}
+<style>
+
+.container-shopping-list {
+    margin: 4em;
+}
+
+.container-shopping-list ul {
+    list-style-type: none;
+}
+
+.container-shopping-list > ul > li {
+    display: flex;
+    align-items: center;
+}
+
+.option-container.shopping-list > input[type="checkbox"] {
+    border-radius: 50%;
+    margin: 0 1em;
+}
+
+.option-container.shopping-list > label {
+    margin: 0;
+    width: initial;
+    white-space: nowrap;
+}
+
+.option-container.shopping-list.obtained > label {
+    color: var(--primary-color);
+    text-decoration: line-through;
+}
+</style>
+<div class="container-top">
+    {% if messages %}
+    <h3>{{ messages.success }}</h3>
+    {% endif %}
+    <h1>Edit {{ shopping_list_title }} shopping list.</h1>
+    <div class="add-recipe-button">
+        <div class="meal-plan-add">
+            {% now "Y" as current_year %}
+            {% now "m" as current_month %}
+            {% now "d" as current_day %}
+            <a href="/meal-plan/{{ current_year }}/{{ current_month }}/{{ current_day }}/"class="btn">
+                <i class="material-icons">add</i>
+                Add meal plan to list
+            </a>
+        </div>
+    </div>
+</div>
+<div class="container-shopping-list">
+{% for aisle in aisles %}
+  <h2>{{ aisle }}</h2>
+        <ul>
+  {% for item in shopping_list %}
+        {% if aisle in item.recipe_ing_id__ingredient_id__ingredient_aisle %}
+            {% if aisle == item.recipe_ing_id__ingredient_id__ingredient_aisle %}
+                    <li>
+                        {% if item.obtained %}
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="option-container shopping-list obtained">
+                                <input type="hidden" value="{{ item.recipe_ing_id__ingredient_id }}" name="obtained_true">
+                                <input type="checkbox" checked>
+                                {% if item.measurement_sum > 0 %}
+                                <label>{{ item.measurement_sum.us_oz|floatformat:"0" }} oz {{ item.recipe_ing_id__ingredient_id__ingredient_name }}</label>
+                                {% else %}
+                                <label>{{ item.recipe_ing_id__size }} {{ item.recipe_ing_id__ingredient_id__ingredient_name }}</label>
+                                {% endif %}
+                            </div>
+                        </form>
+                        {% else %}
+                        <form method="post">
+                            {% csrf_token %}
+                            <div class="option-container shopping-list">
+                                 <input type="hidden" value="{{ item.recipe_ing_id__ingredient_id }}" name="obtained_false">
+                                 <input type="checkbox">
+                                {% if item.measurement_sum > 0 %}
+                                <label>{{ item.measurement_sum.us_oz|floatformat:"0" }} oz {{ item.recipe_ing_id__ingredient_id__ingredient_name }}</label>
+                                {% else %}
+                                <label>{{ item.recipe_ing_id__size }} {{ item.recipe_ing_id__ingredient_id__ingredient_name }}</label>
+                                {% endif %}
+                            </div>
+                        </form>
+                        {% endif %}
+                        <form method="post">
+                            {% csrf_token %}
+                            <input type="hidden" id="delete_ing" name="delete_ing" value="{{ item.recipe_ing_id__ingredient_id }}">
+                            <button class="btn remove" type="submit"><i class="fa fa-times"></i></button>
+                        </form>
+                    </li>
+
+            {% endif %}
+
+        {% endif %}
+  {% endfor %}
+                    </ul>
+
+{% endfor %}
+</div>
+
+{% endblock %}

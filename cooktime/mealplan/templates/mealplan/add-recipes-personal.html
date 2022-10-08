@@ -1,0 +1,88 @@
+{% extends "mealplan/home.html" %}
+{% load static %}
+
+{% block content %}
+{% if user.is_authenticated %}
+<div class="form-container">
+    <div class="form-container-inner">
+        <h1>Add Personal Recipes To Your Recipe Box.</h1>
+                <form method="POST">
+                    {% csrf_token %}
+                    <div class="create-recipe-form">
+                        {{ form.non_field_errors }}
+                        <div class="form-container-input">
+                            <div>
+                                {{ form.recipe_name.errors }}
+                                <label for="{{ form.recipe_name.id_for_label }}">Recipe Name</label>
+                                {{ form.recipe_name }}
+                            </div>
+                        </div>
+                        <div class="form-container-input">
+                            <div>
+                                {{ form.description.errors }}
+                                <label for="{{ form.description.id_for_label }}">Description</label>
+                                {{ form.description }}
+                            </div>
+                        </div>
+                        <div class="form-container-input">
+                            <div>
+                                {{ form.minutes.errors }}
+                                <label for="{{ form.minutes.id_for_label }}">Prep and Cook Time (in minutes)</label>
+                                {{ form.minutes }}
+                            </div>
+                        </div>
+                        <div class="form-container-input">
+                            <div>
+                                {{ form.servings.errors }}
+                                <label for="{{ form.servings.id_for_label }}">Servings</label>
+                                {{ form.servings }}
+                            </div>
+                        </div>
+                        <div class="form-container-input">
+                            <div>
+                            <div class="form-ingredient" id="form_ingredient">
+                                <div class="form-measurement-container">
+                                    {{ quant_form.measurement.errors }}
+                                    <label for="{{ quant_form.measurement.id_for_label }}">Ingredient Measurement</label>
+                                    <div class="form-measurement">
+                                        <input type="text" name="measurement_0" required="" id="id_measurement_0">
+                                        <div class="container-form-select">
+                                            <select name="measurement_1" required="" id="id_measurement_1">
+                                            {% for option1, option2 in quant_form.measurement.field.widget.unit_choices %}
+                                            <option value="{{ option1 }}">{{ option2 }}</option>
+                                            {% endfor %}
+                                            </select>
+                                            <span class="select-custom-arrow"><i class="material-icons">keyboard_arrow_down</i></span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="ingredient-name">
+                                    {{ ing_form.ingredient_name.errors }}
+                                    <label for="{{ ing_form.ingredient_name.id_for_label }}">Ingredient Name</label>
+                                    {{ ing_form.ingredient_name }}
+                                </div>
+                                <div class="form-ingredient-button-container">
+                                    <button class="form-ingredient-button add" type="button"><i class="material-icons">add</i></button>
+                                </div>
+                                <div class="form-ingredient-button-container">
+                                    <button class="form-ingredient-button remove" type="button"><i class="material-icons">remove</i></button>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                        <div class="form-container-input">
+                            <div>
+                                {{ form.instructions.errors }}
+                                <label for="{{ form.instructions.id_for_label }}">Instructions</label>
+                                {{ form.instructions }}
+                            </div>
+                        </div>
+                        <button id="create-recipe-button" class="btn sec-clr" type="submit">Add to Recipe Box</button>
+                    </div>
+                </form>
+    </div>
+    <div class="create-recipe-img" style="background-image: url('{% static 'mealplan/media/jpg/titans_bakery_0.jpg' %}')">
+    </div>
+</div>
+{% endif %}
+{% endblock %}

@@ -1,0 +1,170 @@
+{% load static %}
+
+.hero-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    background: var(--primary-color);
+}
+
+.hero-container-inner {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.hero-img {
+    display: block;
+    min-height: 50vh;
+    height: 100%;
+    width: 100%;
+    margin-bottom: 1em;
+    background-size: cover;
+    background-position: center;
+}
+
+.hero-text {
+    display: inline;
+    padding: 1em;
+    background: var(--primary-color);
+    border-radius: 1em;
+}
+
+.hero-text h1 {
+    font-size: 2.5rem;
+    line-height: 1.5em;
+}
+
+.hero-text p {
+    font-size: 1.5rem;
+    line-height: 1.5em;
+}
+
+
+@media (min-width: 920px) {
+    .hero-container-inner {
+        flex-direction: row;
+    }
+
+    .hero-img {
+        height: 85vh;
+    }
+
+}
+
+@media (max-width: 920px) {
+
+    .hero-text {
+        text-align: center;
+        margin: 0 auto;
+    }
+
+}
+
+.how-container {
+    display: inline;
+    height: 30em;
+}
+
+section {
+  padding: 1em;
+}
+
+.how-container h1, .testimonials-container h1 {
+    text-align: center;
+    font-size: 2em;
+    margin: 1em 0;
+}
+
+.how-container-inner, .testimonials-container-inner {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+}
+
+.icon-parent {
+    border-radius: 2.5em;
+    width: 20em;
+    min-height: 25em;
+    margin: 1em;
+    box-shadow: 0px 5px .5em rgba(0, 0, 0, 0.2);
+}
+
+.icon-parent h1 {
+    white-space: nowrap;
+    display: flex;
+    justify-content: center;
+    padding: 2em;
+}
+
+.icon-parent p {
+    text-align: center;
+    margin: 2.5em;
+}
+
+.how-container-inner-icon {
+    text-align: center;
+}
+
+.testimonial-card {
+    background: white;
+    border: none;
+    border-radius: 1em;
+    padding: 1em;
+    margin: 1em;
+    max-width: 25em;
+    text-align: center;
+}
+
+.testimonial-card > span {
+    margin: 1em;
+    position: relative;
+}
+
+.testimonial-card > span > p {
+    font-size: 2em;
+}
+
+.testimonial-card .fa-quote-left {
+    float: left;
+    font-size: 2em;
+    color: lightgray;
+}
+
+.testimonial-card .fa-quote-right {
+    float: right;
+    font-size: 2em;
+    color: lightgray;
+}
+
+.star-rating {
+    margin: 1em;
+}
+
+.star-rating .fa-star:before {
+    color: var(--primary-color);
+}
+
+.cta {
+    height: 100%;
+    background: var(--primary-color);
+    text-align: center;
+    padding: 3em;
+}
+
+.cta h1 {
+    font-size: 2.5rem;
+    line-height: 1.5em;
+    margin: 0;
+}
+
+.cta p {
+    font-size: 1.5rem;
+    line-height: 1.5em;
+}
+
+.cta > *:not(small) {
+    margin-top: 1em;
+    margin-left: auto;
+    margin-right: auto;
+}
