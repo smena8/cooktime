@@ -11,20 +11,33 @@ from the recipe box, shopping lists, or meal plan calendar.
 
 ### Relational Database Schema
 
-Utilizes relational database schema that connects recipes, meal plans, and shopping list
-items to a single user. Recipes have a unique name and source url constraint. 
+Utilizes a relational database schema that connects recipes, ingredients, meal plans, nutrients,
+and shopping lists items to a user profile, recipe, ingredient, or recipe box. 
+Unique constraints are set to prevent duplication of recipes, recipe ingredients, ingredients, 
+recipes in the recipe boxes, etc. Django MeasurementField and a measurement library convert and
+maintain standard for ingredient measurement units.
 
 ## Getting Started
 
+You will want to have a basic understanding of Django and your preferred IDE.
+I use PyCharm on Windows.
+
 ### Dependencies
 
-* Describe any prerequisites, libraries, OS version, etc., needed before installing program.
-* ex. Windows 10
+Python 3.10.7, pip, and Django 4.1.2.
+Other requirements are listed in the requirements.txt file.
 
 ### Installing
 
-* How/where to download your program
-* Any modifications needed to be made to files/folders
+1. Create a new folder. Let's pretend you call it NewProject.
+2. Go to the command prompt, navigate to the folder, and clone the repository.
+     ```sh
+     git clone https://github.com/smena8/cooktime.git
+     ```
+3. Open the NewProject folder in the IDE. Set up a virtual environment.
+4. install requirements (django-environ)
+5. upgrade python, libraries and django if necessary
+6. api key https://spoonacular.com/food-api
 
 ### Executing program
 
