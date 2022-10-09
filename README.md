@@ -24,7 +24,7 @@ I use PyCharm on Windows.
 
 ### Dependencies
 
-Python 3.10.7, pip, and Django 4.1.2.
+Python 3.10.7, Django 4.1.2, and PostgreSQL.
 Other requirements are listed in the requirements.txt file.
 
 ### Installing
@@ -35,31 +35,64 @@ Other requirements are listed in the requirements.txt file.
      git clone https://github.com/smena8/cooktime.git
      ```
 3. Open the NewProject folder in the IDE. Set up a virtual environment.
-4. install requirements (django-environ)
-5. upgrade python, libraries and django if necessary
-6. api key https://spoonacular.com/food-api
+4. Install and upgrade any outdated requirements.
+    ```sh
+     pip install -r requirements.txt --upgrade
+     ```
+5. Get your free api key from [Spoonacular API](https://spoonacular.com/food-api).
+6. Create a .env file in project root directory. If needed there is more info at this 
+[django-environ documentation link](https://django-environ.readthedocs.io/en/latest/quickstart.html#usage).
+    ```
+    SECRET_KEY=SECRET_KEY
+      
+    DEBUG=DEBUG
+    
+   # for postgres database
+   
+    DATABASE_NAME=DATABASE_NAME
+    
+    DATABASE_USER=DATABASE_USER
+    
+    DATABASE_PASS=DATABASE_PASS
+    
+    DATABASE_HOST=DATABASE_HOST
+   
+   # for cloudinary setup
+    
+    CLOUD_NAME=CLOUD_NAME
+    
+    CLOUD_API_KEY=API_KEY
+    
+    CLOUD_API_SECRET=API_SECRET
+   
+   # for email/contact form
+    
+    EMAIL_HOST=EMAIL_HOST
+    
+    EMAIL_HOST_USER=EMAIL_HOST_USER
+    
+    EMAIL_HOST_PASSWORD=EMAIL_HOST_PASSWORD
+    
+    EMAIL_PORT=EMAIL_PORT
+   
+   # for spoonacular
+    
+    SPOONACULAR_API_KEY=SPOONACULAR_API_KEY
+
+    ```
+7. Migrate models.
+    ```
+   python manage.py makemigrations
+   python manage.py migrate
+    ```
+
 
 ### Executing program
 
-* How to run the program
-* Step-by-step bullets
+Run program.
 ```
-code blocks for commands
+python manage.py runserver
 ```
-
-## Help
-
-Any advise for common problems or issues.
-```
-command to run if program contains helper info
-```
-
-## Authors
-
-Contributors names and contact info
-
-ex. Dominique Pizzie  
-ex. [@DomPizzie](https://twitter.com/dompizzie)
 
 ## Version History
 
@@ -71,13 +104,11 @@ ex. [@DomPizzie](https://twitter.com/dompizzie)
 
 ## License
 
-This project is licensed under the [NAME HERE] License - see the LICENSE.md file for details
+This project is licensed under the MIT License - see the LICENSE file for details.
 
 ## Acknowledgments
 
 Inspiration, code snippets, etc.
-* [awesome-readme](https://github.com/matiassingers/awesome-readme)
-* [PurpleBooth](https://gist.github.com/PurpleBooth/109311bb0361f32d87a2)
-* [dbader](https://github.com/dbader/readme-template)
-* [zenorocha](https://gist.github.com/zenorocha/4526327)
-* [fvcproductions](https://gist.github.com/fvcproductions/1bfc2d4aecb01a834b46)
+
+<br/>[Logo - Freepik](https://www.freepik.com/premium-vector/cooking-food-lettering-kitchen-utensils-with-text-culinary-master-class-cafe-restaurant-emblems-saucepan-with-cooked-soup_27104502.htm)
+<br/>[API - Spoonacular](https://spoonacular.com/food-api)
