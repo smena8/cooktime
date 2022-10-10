@@ -1,0 +1,25 @@
+    .profile-container {
+        margin: 5em 0 0 0;
+        text-align: center;
+    }
+
+    .profile-img {
+        border-radius: 50%;
+        margin-top: 2em;
+    }
+
+    form.profile-form {
+        margin: 3em;
+    }
+
+    form.profile-form > p {
+        display: flex;
+        flex-direction: column;
+        margin: 1em auto;
+        max-width: 25em;
+        width: 100%;
+    }
+
+    form.profile-form > legend {
+        text-align: center;
+    }
